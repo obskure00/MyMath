@@ -3,6 +3,7 @@
 
 #include <limits>
 #include <cstdint>
+#include <cmath>
 
 namespace math {
 
