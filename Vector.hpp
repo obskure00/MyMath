@@ -1,7 +1,6 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-#include <memory>
 #include <vector>
 #include <tuple>
 
@@ -34,15 +33,19 @@ class Vector3 {
             return Vector3(x - other.x, y - other.y, z - other.z);
         }
 
-        Vector3 crossProd (const Vector3& other) {
+        Vector3 crossProd3 (const Vector3& other) {
             Vector3 vec(0, 0, 0);
             vec.x = (y * other.z) - (z * other.y);
             vec.y = (z * other.x) - (x * other.z);
             vec.z = (x * other.y) - (y * other.x);
             return vec;
         }
+    
+        double dotProd3 (const Vector3& other) {
+            return (x * other.x) + (y * other.y) + (z * other.z);
+        }
 
-        void scalarProd (double scalar) {
+        void scaling3 (double scalar) {
             x *= scalar;
             y *= scalar;
             z *= scalar;
