@@ -1,8 +1,145 @@
-#ifndef VECTOR3_HPP
-#define VECTOR3_HPP
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 
 #include <cmath>
 #include <algorithm>
+
+//=======================================
+//---------------2D Vector---------------
+//=======================================
+
+class Vector2 {
+public:
+    double x;
+    double y;
+
+    constexpr Vector2() : x(0.0), y(0.0) {}
+    constexpr Vector2(double x_, double y_)
+        : x(x_), y(y_) {}
+
+    // =========================
+    // Arithmetic Operators
+    // =========================
+
+    Vector2 operator+(const Vector2& v) const {
+        return Vector2(x + v.x, y + v.y);
+    }
+
+    Vector2 operator-(const Vector2& v) const {
+        return Vector2(x - v.x, y - v.y);
+    }
+
+    Vector2 operator*(double s) const {
+        return Vector2(x * s, y * s);
+    }
+
+    Vector2 operator/(double s) const {
+        return Vector2(x / s, y / s);
+    }
+
+    Vector2& operator+=(const Vector2& v) {
+        x += v.x; y += v.y;
+        return *this;
+    }
+
+    Vector2& operator-=(const Vector2& v) {
+        x -= v.x; y -= v.y;
+        return *this;
+    }
+
+    Vector2& operator*=(double s) {
+        x *= s; y *= s;
+        return *this;
+    }
+
+    Vector2& operator/=(double s) {
+        x /= s; y /= s;
+        return *this;
+    }
+
+    // =========================
+    // Vector Math
+    // =========================
+
+    double dot2(const Vector2& v) const {
+        return x*v.x + y*v.y;
+    }
+
+    double cross2(const Vector2& v) const {
+        return x*v.y - y*v.x;
+    }
+
+    double lengthSquared2() const {
+        return x*x + y*y;
+    }
+
+    double length2() const {
+        return std::sqrt(lengthSquared2());
+    }
+
+    // =========================
+    // Normalization
+    // =========================
+
+    Vector2 normalized2() const {
+        double len = length2();
+        if (len < 1e-12)
+            return Vector2();
+        return *this / len;
+    }
+
+    Vector2& normalize2() {
+        double len = length2();
+        if (len < 1e-12)
+            return *this;
+        return (*this /= len);
+    }
+
+    // =========================
+    // Projection & Rejection
+    // =========================
+
+    Vector2 projectOnto2(const Vector2& b) const {
+        double denom = b.lengthSquared2();
+        if (denom < 1e-12)
+            return Vector2();
+        return (dot2(b) / denom) * b;
+    }
+
+    Vector2 rejectFrom2(const Vector2& b) const {
+        return *this - projectOnto2(b);
+    }
+
+    // =========================
+    // Reflection (normal must be normalized)
+    // =========================
+
+    Vector2 reflect2(const Vector2& normal) const {
+        return *this - normal * (2.0 * dot2(normal));
+    }
+
+    // =========================
+    // Angle Between
+    // =========================
+
+    double angleBetween2(const Vector2& v) const {
+        double denom = length2() * v.length2();
+        if (denom < 1e-12)
+            return 0.0;
+
+        double c = dot2(v) / denom;
+        c = std::clamp(c, -1.0, 1.0);
+        return std::acos(c);
+    }
+};
+
+inline Vector2 operator*(double s, const Vector2& v) {
+    return v * s;
+}
+
+//=======================================
+//---------------3D Vector---------------
+//=======================================
 
 class Vector3 {
 public:
@@ -58,11 +195,11 @@ public:
     // Vector Math
     // =========================
 
-    double dot(const Vector3& v) const {
+    double dot3(const Vector3& v) const {
         return x*v.x + y*v.y + z*v.z;
     }
 
-    Vector3 cross(const Vector3& v) const {
+    Vector3 cross3(const Vector3& v) const {
         return Vector3(
             y*v.z - z*v.y,
             z*v.x - x*v.z,
@@ -70,27 +207,27 @@ public:
         );
     }
 
-    double lengthSquared() const {
+    double lengthSquared3() const {
         return x*x + y*y + z*z;
     }
 
-    double length() const {
-        return std::sqrt(lengthSquared());
+    double length3() const {
+        return std::sqrt(lengthSquared3());
     }
 
     // =========================
     // Normalization
     // =========================
 
-    Vector3 normalized() const {
-        double len = length();
+    Vector3 normalized3() const {
+        double len = length3();
         if (len < 1e-12)
             return Vector3();
         return *this / len;
     }
 
-    Vector3& normalize() {
-        double len = length();
+    Vector3& normalize3() {
+        double len = length3();
         if (len < 1e-12)
             return *this;
         return (*this /= len);
@@ -100,15 +237,15 @@ public:
     // Projection & Rejection
     // =========================
 
-    Vector3 projectOnto(const Vector3& b) const {
-        double denom = b.lengthSquared();
+    Vector3 projectOnto3(const Vector3& b) const {
+        double denom = b.lengthSquared3();
         if (denom < 1e-12)
             return Vector3();
-        return (dot(b) / denom) * b;
+        return (dot3(b) / denom) * b;
     }
 
     Vector3 rejectFrom(const Vector3& b) const {
-        return *this - projectOnto(b);
+        return *this - projectOnto3(b);
     }
 
     // =========================
@@ -116,7 +253,7 @@ public:
     // =========================
 
     Vector3 reflect(const Vector3& normal) const {
-        return *this - normal * (2.0 * this->dot(normal));
+        return *this - normal * (2.0 * this->dot3(normal));
     }
 
     // =========================
@@ -124,7 +261,7 @@ public:
     // =========================
 
     Vector3 refract(const Vector3& normal, double eta) const {
-        double cosi = std::clamp(this->dot(normal), -1.0, 1.0);
+        double cosi = std::clamp(this->dot3(normal), -1.0, 1.0);
         double k = 1.0 - eta*eta * (1.0 - cosi*cosi);
 
         if (k < 0.0)
@@ -138,11 +275,11 @@ public:
     // =========================
 
     double angleBetween(const Vector3& v) const {
-        double denom = length() * v.length();
+        double denom = length3() * v.length3();
         if (denom < 1e-12)
             return 0.0;
 
-        double c = dot(v) / denom;
+        double c = dot3(v) / denom;
         c = std::clamp(c, -1.0, 1.0);
         return std::acos(c);
     }
@@ -152,7 +289,7 @@ public:
     // =========================
 
     double tripleProduct(const Vector3& b, const Vector3& c) const {
-        return this->dot(b.cross(c));
+        return this->dot3(b.cross3(c));
     }
 
     // =========================
@@ -165,19 +302,119 @@ public:
         Vector3& e2,
         Vector3& e3)
     {
-        e1 = v.normalized();
+        e1 = v.normalized3();
 
         Vector3 helper =
             (std::fabs(e1.x) < 0.9)
             ? Vector3(1.0, 0.0, 0.0)
             : Vector3(0.0, 1.0, 0.0);
 
-        e2 = e1.cross(helper).normalized();
-        e3 = e1.cross(e2);
+        e2 = e1.cross3(helper).normalized3();
+        e3 = e1.cross3(e2);
     }
 };
 
 inline Vector3 operator*(double s, const Vector3& v) {
+    return v * s;
+}
+
+//=======================================
+//---------------4D Vector---------------
+//=======================================
+
+class Vector4 {
+public:
+    double x;
+    double y;
+    double z;
+    double w;
+
+    constexpr Vector4() : x(0), y(0), z(0), w(0) {}
+    constexpr Vector4(double x_, double y_, double z_, double w_)
+        : x(x_), y(y_), z(z_), w(w_) {}
+
+    // =========================
+    // Arithmetic Operators
+    // =========================
+
+    Vector4 operator+(const Vector4& v) const {
+        return Vector4(x + v.x, y + v.y, z + v.z, w + v.w);
+    }
+
+    Vector4 operator-(const Vector4& v) const {
+        return Vector4(x - v.x, y - v.y, z - v.z, w - v.w);
+    }
+
+    Vector4 operator*(double s) const {
+        return Vector4(x * s, y * s, z * s, w * s);
+    }
+
+    Vector4 operator/(double s) const {
+        return Vector4(x / s, y / s, z / s, w / s);
+    }
+
+    Vector4& operator+=(const Vector4& v) {
+        x += v.x; y += v.y; z += v.z; w += v.w;
+        return *this;
+    }
+
+    Vector4& operator-=(const Vector4& v) {
+        x -= v.x; y -= v.y; z -= v.z; w -= v.w;
+        return *this;
+    }
+
+    Vector4& operator*=(double s) {
+        x *= s; y *= s; z *= s; w *= s;
+        return *this;
+    }
+
+    Vector4& operator/=(double s) {
+        x /= s; y /= s; z /= s; w /= s;
+        return *this;
+    }
+
+    // =========================
+    // Vector Math
+    // =========================
+
+    double dot4(const Vector4& v) const {
+        return x*v.x + y*v.y + z*v.z + w*v.w;
+    }
+
+    double lengthSquared4() const {
+        return dot4(*this);
+    }
+
+    double length4() const {
+        return std::sqrt(lengthSquared4());
+    }
+
+    Vector4 normalized4() const {
+        double len = length4();
+        if (len < 1e-12)
+            return Vector4();
+        return *this / len;
+    }
+
+    Vector4& normalize4() {
+        double len = length4();
+        if (len < 1e-12)
+            return *this;
+        return (*this /= len);
+    }
+
+    double angleBetween4(const Vector4& v) const {
+        double denom = length4() * v.length4();
+        if (denom < 1e-12)
+            return 0.0;
+
+        double c = dot4(v) / denom;
+        c = std::clamp(c, -1.0, 1.0);
+        return std::acos(c);
+    }
+};
+
+inline Vector4 operator*(double s, const Vector4& v) {
     return v * s;
 }
 
