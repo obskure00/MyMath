@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include "Matrix.hpp"
 
 //=======================================
 //---------------2D Vector---------------
@@ -135,6 +136,13 @@ public:
 
 inline Vector2 operator*(double s, const Vector2& v) {
     return v * s;
+}
+
+Vector2 operator*(const Matrix2& m, const Vector2& v) {
+    return Vector2(
+        m.data[0]*v.x + m.data[1]*v.y,
+        m.data[2]*v.x + m.data[3]*v.y
+    );
 }
 
 //=======================================
@@ -318,6 +326,14 @@ inline Vector3 operator*(double s, const Vector3& v) {
     return v * s;
 }
 
+Vector3 operator*(const Matrix3& m, const Vector3& v) {
+    return Vector3(
+        m.data[0]*v.x + m.data[1]*v.y + m.data[2]*v.z,
+        m.data[3]*v.x + m.data[4]*v.y + m.data[5]*v.z,
+        m.data[6]*v.x + m.data[7]*v.y + m.data[8]*v.z
+    );
+}
+
 //=======================================
 //---------------4D Vector---------------
 //=======================================
@@ -416,6 +432,15 @@ public:
 
 inline Vector4 operator*(double s, const Vector4& v) {
     return v * s;
+}
+
+Vector4 operator*(const Matrix4& m, const Vector4& v) {
+    return Vector4(
+        m.data[0]*v.x + m.data[1]*v.y + m.data[2]*v.z + m.data[3]*v.w,
+        m.data[4]*v.x + m.data[5]*v.y + m.data[6]*v.z + m.data[7]*v.w,
+        m.data[8]*v.x + m.data[9]*v.y + m.data[10]*v.z + m.data[11]*v.w,
+        m.data[12]*v.x + m.data[13]*v.y + m.data[14]*v.z + m.data[15]*v.w
+    );
 }
 
 #endif
