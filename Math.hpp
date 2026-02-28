@@ -71,10 +71,6 @@ inline Matrix4 Matrix4::fromScale3(const Vector3& s) {
     return m;
 }
 
-// Compose a row-major TRS matrix (Scale → Rotate → Translate)
-// Applied to a point p via  M * p  this gives:  R * (s ⊙ p) + t
-// (element-wise scale first, then rotate, then translate)
-// The bottom row is [0, 0, 0, 1]
 inline Matrix4 Matrix4::composeTRS3(const Vector3& translation, const Matrix3& rotation, const Vector3& scale) {
     Matrix4 m;
     for (int row = 0; row < 3; ++row) {
