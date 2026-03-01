@@ -248,12 +248,7 @@ class Vector3 {
         // Orthonormal Basis from a single non-zero vector
         // =========================
 
-        static void orthonormalBasis3(
-            const Vector3& v,
-            Vector3& e1,
-            Vector3& e2,
-            Vector3& e3)
-        {
+        static void orthonormalBasis3(const Vector3& v, Vector3& e1, Vector3& e2, Vector3& e3) {
             e1 = v.normalized3();
             Vector3 helper = (std::fabs(e1.x) < 0.9)
                         ? Vector3(1.0, 0.0, 0.0)

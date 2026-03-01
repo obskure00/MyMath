@@ -24,11 +24,11 @@ class Matrix2 {
         Matrix2(double m00, double m01,
                 double m10, double m11)
             : data{m00, m01,
-                m10, m11} {}
+                   m10, m11} {}
 
         static Matrix2 Identity() {
             return Matrix2(1.0, 0.0,
-                        0.0, 1.0);
+                           0.0, 1.0);
         }
 
         // =========================
@@ -112,7 +112,7 @@ class Matrix2 {
 
         Matrix2 transpose2() const {
             return Matrix2(data[0], data[2],
-                        data[1], data[3]);
+                           data[1], data[3]);
         }
 
         Matrix2& transposeInPlace2() {
@@ -352,15 +352,14 @@ class Matrix3 {
         }
 
         // =========================
-        // Symmetric Inertia Tensor Transform  (optimised)
+        // Symmetric Inertia Tensor Transform (optimised)
         // =========================
 
         static Matrix3 transformSymmetricInertiaTensor3(
             double ixx, double ixy, double ixz,
                         double iyy, double iyz,
                                     double izz,
-            const Matrix3& R)
-        {
+            const Matrix3& R) {
             const double r00 = R.data[0], r01 = R.data[1], r02 = R.data[2];
             const double r10 = R.data[3], r11 = R.data[4], r12 = R.data[5];
             const double r20 = R.data[6], r21 = R.data[7], r22 = R.data[8];
