@@ -115,4 +115,10 @@ inline Vector3 rotationZ3(double rad, const Vector3& v) { return rotationZ3(rad)
 
 #include "Quaternion.hpp"
 
+// ============================================================
+//  Transform3  —  see Transformation.hpp
+// ============================================================
+
+#include "Transformation.hpp"
+
 #endif
