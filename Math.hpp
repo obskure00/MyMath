@@ -121,4 +121,16 @@ inline Vector3 rotationZ3(double rad, const Vector3& v) { return rotationZ3(rad)
 
 #include "Transformation.hpp"
 
+// ============================================================
+//  MassProperties + inertia utilities  —  see Inertia.hpp
+// ============================================================
+
+#include "Inertia.hpp"
+
+// ============================================================
+//  Time integration helpers  —  see Integration.hpp
+// ============================================================
+
+#include "Integration.hpp"
+
 #endif
