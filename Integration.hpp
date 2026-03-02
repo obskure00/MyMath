@@ -2,7 +2,7 @@
 #define INTEGRATION_HPP
 
 // Integration.hpp — time integration helpers for rigid-body physics.
-// Include via Math.hpp (pulled in automatically) or directly.
+// Include via Math.hpp pulled indirectly.
 
 #include "Math.hpp"
 

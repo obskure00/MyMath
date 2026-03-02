@@ -133,4 +133,16 @@ inline Vector3 rotationZ3(double rad, const Vector3& v) { return rotationZ3(rad)
 
 #include "Integration.hpp"
 
+// ============================================================
+//  Collision math primitives  —  see Collision.hpp
+// ============================================================
+
+#include "Collision.hpp"
+
+// ============================================================
+//  Advanced linear algebra utilities  —  see LinAlg.hpp
+// ============================================================
+
+#include "LinAlg.hpp"
+
 #endif

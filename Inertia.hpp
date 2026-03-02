@@ -5,7 +5,7 @@
 // All tensor formulas assume uniform density.
 // Symmetry of physical inertia tensors is exploited throughout — the optimised
 // Matrix3::transformSymmetricInertiaTensor3 path is used everywhere.
-// Include via Math.hpp (which pulls this in automatically) or directly.
+// Include via Math.hpp pulled in directly.
 
 #include "Math.hpp"
 
